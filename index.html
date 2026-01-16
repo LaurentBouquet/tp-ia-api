@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jours fériés en France</title>
+</head>
+
+<body>
+    <h1>Jours fériés en France</h1>
+    <ul id="holiday-list"></ul>
+
+
+
+    <script>
+        // Cette fonction va récupérer les jours fériés et les afficher
+        function loadHolidays() {
+            try {
+                fetch('https://date.nager.at/api/v3/publicholidays/2027/FR')
+                .then(response => response.json())
+                .then(data => {
+                    const holidayList = document.getElementById('holiday-list');
+                    holidayList.innerHTML = ''; // Vide la liste avant d'ajouter des éléments
+                    // Pour chaque jour férié reçu, nous créons un élément de liste et l'ajoutons à la page
+                    data.forEach(holiday => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${holiday.date} - ${holiday.localName}`;
+                        holidayList.appendChild(listItem);
+                    });
+                });// Fin du fetch
+            }
+            catch (error) {
+                console.error("Erreur lors de la récupération des jours fériés:", error);
+            }
+
+
+        }
+
+
+
+        // Cette ligne de code appelle la fonction loadHolidays lorsque la page est complètement chargée
+        window.addEventListener('load', loadHolidays);
+    </script>
+
+</body>
+
+</html>
